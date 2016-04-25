@@ -180,7 +180,7 @@ namespace ProtoCore.Lang.Replication
         }
 
         /// <summary>
-        /// Returns arguments at the corresponding levles and dominant list structure.
+        /// Return arguments at the corresponding levles and dominant list structure.
         /// </summary>
         /// <param name="arguments"></param>
         /// <param name="atLevels"></param>

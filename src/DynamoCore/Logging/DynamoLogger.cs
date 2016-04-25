@@ -8,12 +8,12 @@ using Dynamo.Interfaces;
 namespace Dynamo.Logging
 {
     /// <summary>
-    /// Specifies the level for log messages. A log message could be a console or file or warning.
+    /// Defines the level for log messages. A log message could be a console or file or warning.
     /// </summary>
     public enum LogLevel{Console, File, Warning}
 
     /// <summary>
-    /// Specifies the warning level for log messages.
+    /// Defines the warning level for log messages.
     /// </summary>
     public enum WarningLevel{Mild, Moderate, Error}
 
@@ -61,9 +61,6 @@ namespace Dynamo.Logging
         }
     }
 
-    /// <summary>
-    /// This class contains methods and properties used for logging in Dynamo,
-    /// </summary>
     public class DynamoLogger: NotificationObject, ILogger, IDisposable
     {
         private readonly Object guardMutex = new Object();
@@ -77,9 +74,6 @@ namespace Dynamo.Logging
         private TextWriter FileWriter { get; set; }
         private StringBuilder ConsoleWriter { get; set; }
 
-        /// <summary>
-        /// Returns warning level for log messages.
-        /// </summary>
         public WarningLevel WarningLevel
         {
             get { return _warningLevel; }
@@ -93,9 +87,6 @@ namespace Dynamo.Logging
             }
         }
 
-        /// <summary>
-        /// Returns warning message text
-        /// </summary>
         public string Warning
         {
             get { return _warning; }
@@ -110,17 +101,11 @@ namespace Dynamo.Logging
             }
         }
 
-        /// <summary>
-        /// Returns full path to log file
-        /// </summary>
         public string LogPath 
         {
             get { return _logPath; }
         }
 
-        /// <summary>
-        /// Contains all message which have been logged
-        /// </summary>
         public string LogText
         {
             get
@@ -135,11 +120,8 @@ namespace Dynamo.Logging
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="DynamoLogger"/> class
-        /// with specified debug settings and directory where to write logs
+        /// The default constructor.
         /// </summary>
-        /// <param name="debugSettings">Debug settings</param>
-        /// <param name="logDirectory">Directory path where log file will be written</param>
         public DynamoLogger(DebugSettings debugSettings, string logDirectory)
         {
             lock (guardMutex)
@@ -187,7 +169,7 @@ namespace Dynamo.Logging
                             try
                             {
                                 ConsoleWriter.AppendLine(string.Format("{0}", message));
-                                FileWriter.WriteLine(string.Format("{0} : {1}", DateTime.UtcNow.ToString("u"), message));
+                                FileWriter.WriteLine(string.Format("{0} : {1}", DateTime.Now, message));
                                 FileWriter.Flush();
                                 RaisePropertyChanged("ConsoleWriter");
                             }
@@ -204,7 +186,7 @@ namespace Dynamo.Logging
                         {
                             try
                             {
-                                FileWriter.WriteLine(string.Format("{0} : {1}", DateTime.UtcNow.ToString("u"), message));
+                                FileWriter.WriteLine(string.Format("{0} : {1}", DateTime.Now, message));
                                 FileWriter.Flush();
                             }
                             catch
@@ -258,11 +240,6 @@ namespace Dynamo.Logging
             Log(tag, error);
         }
 
-        /// <summary>
-        /// Log an information message
-        /// </summary>
-        /// <param name="tag">Tag of the message to log</param>
-        /// <param name="info">Message to log</param>
         public void LogInfo(string tag, string info)
         {
             Log(tag, LogLevel.File);
@@ -283,7 +260,7 @@ namespace Dynamo.Logging
         /// <summary>
         /// Log a message
         /// </summary>
-        /// <param name="message">Message to log</param>
+        /// <param name="message"></param>
         public void Log(string message)
         {
             Log(message, LogLevel.Console);
@@ -292,7 +269,7 @@ namespace Dynamo.Logging
         /// <summary>
         /// Log an exception
         /// </summary>
-        /// <param name="e">Exception to log</param>
+        /// <param name="e"></param>
         public void Log(Exception e)
         {
             Log(e.GetType() + ":", LogLevel.Console);
@@ -303,8 +280,8 @@ namespace Dynamo.Logging
         /// <summary>
         /// Log some data with an associated tag
         /// </summary>
-        /// <param name="tag">Tag of the message to log</param>
-        /// <param name="data">Message to log</param>
+        /// <param name="tag"></param>
+        /// <param name="data"></param>
         public void Log(string tag, string data)
         {
             Log(string.Format("{0}:{1}", tag, data));
@@ -326,17 +303,13 @@ namespace Dynamo.Logging
         {
             lock (this.guardMutex)
             {
-                // We use a guid to uniquely identify the log name. This disambiguates log files
-                // so that parallel testing which needs to access the log files can be done, and
-                // so that services like Cloud Watch can match the dynamoLog_* pattern.
-                _logPath = Path.Combine(logDirectory, string.Format("dynamoLog_{0}.txt", Guid.NewGuid()));
+                _logPath = Path.Combine(logDirectory, string.Format("dynamoLog_{0}.txt", Guid.NewGuid().ToString()));
 
-                var date = DateTime.UtcNow.ToString("u");
                 FileWriter = new StreamWriter(_logPath);
-                FileWriter.WriteLine("Dynamo log started " + date);
+                FileWriter.WriteLine("Dynamo log started " + DateTime.Now.ToString());
 
                 ConsoleWriter = new StringBuilder();
-                ConsoleWriter.AppendLine("Dynamo log started " + date);
+                ConsoleWriter.AppendLine("Dynamo log started " + DateTime.Now.ToString());
             }
 
         }
@@ -370,9 +343,6 @@ namespace Dynamo.Logging
                 ConsoleWriter = null;
         }
 
-        /// <summary>
-        /// Disposes the logger and finishes logging.
-        /// </summary>
         public void Dispose()
         {
             Dispose(_isDisposed);

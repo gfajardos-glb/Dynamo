@@ -9,53 +9,23 @@ using Dynamo.Utilities;
 
 namespace Dynamo.Graph.Annotations
 {
-    /// <summary>
-    /// This class contains methods and properties used for creating groups in Dynamo.
-    /// </summary>
     public class AnnotationModel : ModelBase
     {
+        #region Properties
+        public event Func<Guid, ModelBase> ModelBaseRequested;      
+        public double InitialTop { get; set; } //required to calculate the TOP position in a group         
+        public double InitialHeight { get; set; } //required to calculate the HEIGHT of a group          
         private const double DoubleValue = 0.0;
         private const double MinTextHeight = 20.0;
         private const double ExtendSize = 10.0;
         private const double ExtendYHeight = 5.0;
-
-        #region Properties
-
-        /// <summary>
-        /// Triggers when it needs to get the model to add from Workspace
-        /// </summary>
-        public event Func<Guid, ModelBase> ModelBaseRequested;
-
-        /// <summary>
-        /// Required to calculate the TOP position in a group
-        /// </summary>
-        public double InitialTop { get; set; }
-
-        /// <summary>
-        /// Required to calculate the HEIGHT of a group
-        /// </summary>
-        public double InitialHeight { get; set; }
-
-        /// <summary>
-        /// Returns default background of the group
-        /// </summary>
-        public string GroupBackground = "#FFC1D676";
-
-        /// <summary>
-        /// DeletedModelBases is used to keep track of deleted / ungrouped models. 
-        /// During Undo operations this is used to get those models that are deleted from the group
-        /// </summary>
+        public  string GroupBackground = "#FFC1D676";
+        //DeletedModelBases is used to keep track of deleted / ungrouped models. 
+        //During Undo operations this is used to get those models that are deleted from the group
         public List<ModelBase> DeletedModelBases { get; set; }
-
-        /// <summary>
-        /// Indicates if group properties should be read from xml data
-        /// </summary>
         public bool loadFromXML { get; set; }
 
         private double width;
-        /// <summary>
-        /// Returns width of the group
-        /// </summary>
         public override double Width
         {
             get
@@ -70,9 +40,6 @@ namespace Dynamo.Graph.Annotations
         }
 
         private double height;
-        /// <summary>
-        /// Returns height of the group
-        /// </summary>
         public override double Height
         {
             get
@@ -87,10 +54,6 @@ namespace Dynamo.Graph.Annotations
         }
 
         private string text;
-
-        /// <summary>
-        /// Returns text of the group
-        /// </summary>
         public string Text
         {
             get { return text; }
@@ -100,12 +63,9 @@ namespace Dynamo.Graph.Annotations
                 RaisePropertyChanged("Text");
             }
         }
-
+       
         private string annotationText;
-        /// <summary>
-        /// Returns title of the group
-        /// </summary>
-        public string AnnotationText
+        public String AnnotationText
         {
             get { return annotationText; }
             set
@@ -117,9 +77,6 @@ namespace Dynamo.Graph.Annotations
         }
 
         private string background;
-        /// <summary>
-        /// Returns background of the group
-        /// </summary>
         public string Background
         {
             get { return background ?? GroupBackground; }
@@ -131,9 +88,6 @@ namespace Dynamo.Graph.Annotations
         }
               
         private IEnumerable<ModelBase> selectedModels;
-        /// <summary>
-        /// Returns collection of models (nodes and notes) which the group contains
-        /// </summary>
         public IEnumerable<ModelBase> SelectedModels
         {
             get { return selectedModels; }
@@ -153,7 +107,7 @@ namespace Dynamo.Graph.Annotations
 
         /// <summary>
         /// Overriding the Rect from Modelbase
-        /// This queries the actual RECT of the group. 
+        /// This gets the actual RECT of the group. 
         /// This is required to make the group as ILocatable.
         /// </summary>      
         public override Rect2D Rect
@@ -161,11 +115,8 @@ namespace Dynamo.Graph.Annotations
             get { return new Rect2D(this.X, this.Y, this.Width, this.Height); }
         }
 
-        private double textBlockHeight;
-        /// <summary>
-        /// Returns height of the text area of the group
-        /// </summary>
-        public double TextBlockHeight
+        private Double textBlockHeight;
+        public Double TextBlockHeight
         {
             get { return textBlockHeight; }
             set
@@ -180,10 +131,7 @@ namespace Dynamo.Graph.Annotations
         }
 
         private double fontSize = 14;
-        /// <summary>
-        /// Returns font size of the text of the group
-        /// </summary>
-        public double FontSize
+        public Double FontSize
         {
             get { return fontSize; }
             set
@@ -497,9 +445,6 @@ namespace Dynamo.Graph.Annotations
             base.Deselect();
         }
 
-        /// <summary>
-        /// Implementation of Dispose method
-        /// </summary>
         public override void Dispose()
         {           
             if (this.SelectedModels.Any())

@@ -92,15 +92,16 @@ namespace ProtoCore.DSASM
         public const string cjmp = "cjmp";
         public const string jdep = "jdep";
         public const string bounce = "bounce";
-        public const string newarr = "newarr";
-        public const string newobj = "newobj";
+        public const string alloca = "alloca";
+        public const string allocc = "allocc";
         public const string push = "push";
         public const string pushm = "pushm";
         public const string pushw = "pushw";
+        public const string pushindex = "pushindex";
         public const string pushdep = "pushdep";
         public const string pushrepguide = "pushguide";
         public const string pushlevel = "pushlevel";
-        public const string ret = "return";
+        public const string ret = "ret";
         public const string retb = "retb";
         public const string retcn = "retcn";
         public const string pop = "pop";
@@ -112,10 +113,6 @@ namespace ProtoCore.DSASM
         public const string setexpuid = "setexpuid";
         public const string pushb = "pushb";
         public const string pushvarsize = "pushvarsize";
-        public const string loadelement = "loadelement";
-        public const string setelement = "setelement";
-        public const string setmemelement = "setmemelement";
-        public const string cast = "cast";
 
         public const string regRX = "_rx";
         public const string regLX = "_lx";
@@ -139,7 +136,7 @@ namespace ProtoCore.DSASM
     public class Op
     {
         /// <summary>
-        /// Returns the corresponding opcode of an operator.
+        /// Return the corresponding opcode of an operator.
         /// </summary>
         /// <param name="op"></param>
         /// <returns></returns>
@@ -153,7 +150,7 @@ namespace ProtoCore.DSASM
         }
 
         /// <summary>
-        /// Returns the corresponding opcode of an unary operator.
+        /// Return the corresponding opcode of an unary operator.
         /// </summary>
         /// <param name="op"></param>
         /// <returns></returns>
@@ -167,7 +164,7 @@ namespace ProtoCore.DSASM
         }
 
         /// <summary>
-        /// Returns the symbol representation of an operator. E.g., return "+"
+        /// Return the symbol representation of an operator. E.g., return "+"
         /// for Operator.add.
         /// </summary>
         /// <param name="op">Operator</param>
@@ -182,7 +179,7 @@ namespace ProtoCore.DSASM
         }
 
         /// <summary>
-        /// Returns the symbol representation of an unary operator. E.g., return
+        /// Return the symbol representation of an unary operator. E.g., return
         /// "-" for UnaryOperator.neg
         /// </summary>
         /// <param name="op"></param>
@@ -197,7 +194,7 @@ namespace ProtoCore.DSASM
         }
 
         /// <summary>
-        /// Returns the string representation of an operator. E.g., return "add"
+        /// Return the string representation of an operator. E.g., return "add"
         /// for Operator.add.
         /// </summary>
         /// <param name="op"></param>
@@ -212,7 +209,7 @@ namespace ProtoCore.DSASM
         }
 
         /// <summary>
-        /// Returns the string representation of an unary operator. E.g., return 
+        /// Return the string representation of an unary operator. E.g., return 
         /// "not" for UnaryOperator.not.
         /// </summary>
         /// <param name="op"></param>
@@ -227,7 +224,7 @@ namespace ProtoCore.DSASM
         }
 
         /// <summary>
-        /// Returns the internal function name for operator.
+        /// Return the internal function name for operator.
         /// </summary>
         /// <param name="op"></param>
         /// <returns></returns>
@@ -237,7 +234,7 @@ namespace ProtoCore.DSASM
         }
 
         /// <summary>
-        /// Returns the internal function name for unary operator
+        /// Return the internal function name for unary operator
         /// </summary>
         /// <param name="op"></param>
         /// <returns></returns>

@@ -90,7 +90,22 @@ namespace ProtoCore.SyntaxAnalysis
                 node.ArrayDimensions.Accept(this);
         }
 
+        public virtual void VisitVarDeclNode(VarDeclNode node)
+        {
+            DefaultVisit(node);
+        }
+
+        public virtual void VisitArgumentSignatureNode(ArgumentSignatureNode node)
+        {
+            DefaultVisit(node);
+        }
+
         public virtual void VisitCodeBlockNode(CodeBlockNode node)
+        {
+            DefaultVisit(node);
+        }
+
+        public virtual void VisitFunctionDefinitionNode(FunctionDefinitionNode node)
         {
             DefaultVisit(node);
         }
@@ -153,6 +168,11 @@ namespace ProtoCore.SyntaxAnalysis
 
             if (node.Type != null)
                 node.Type.Accept(this);
+        }
+
+        public virtual void VisitDefaultArgNode(DefaultArgNode node)
+        {
+            DefaultVisit(node);
         }
 
         public virtual void VisitWhileStatementNode(WhileStmtNode node)
@@ -262,7 +282,22 @@ namespace ProtoCore.SyntaxAnalysis
             return DefaultVisit(node);
         }
 
+        public virtual TResult VisitVarDeclNode(VarDeclNode node)
+        {
+            return DefaultVisit(node);
+        }
+
+        public virtual TResult VisitArgumentSignatureNode(ArgumentSignatureNode node)
+        {
+            return DefaultVisit(node);
+        }
+
         public virtual TResult VisitCodeBlockNode(CodeBlockNode node)
+        {
+            return DefaultVisit(node);
+        }
+
+        public virtual TResult VisitFunctionDefinitionNode(FunctionDefinitionNode node)
         {
             return DefaultVisit(node);
         }
@@ -303,6 +338,11 @@ namespace ProtoCore.SyntaxAnalysis
         }
 
         public virtual TResult VisitArrayNode(ArrayNode node)
+        {
+            return DefaultVisit(node);
+        }
+
+        public virtual TResult VisitDefaultArgNode(DefaultArgNode node)
         {
             return DefaultVisit(node);
         }
@@ -425,6 +465,13 @@ namespace ProtoCore.SyntaxAnalysis
                     node.ArrayDimensions = newArrayDimensions as ArrayNode;
             }
 
+            return node;
+        }
+
+        public override ImperativeNode VisitFunctionDefinitionNode(FunctionDefinitionNode node)
+        {
+            var nodeList = node.FunctionBody.Body.Select(astNode => astNode.Accept(this)).ToList();
+            node.FunctionBody.Body = nodeList;
             return node;
         }
 

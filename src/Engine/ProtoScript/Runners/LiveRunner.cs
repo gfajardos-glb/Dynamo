@@ -809,7 +809,7 @@ namespace ProtoScript.Runners
         }
 
         /// <summary>
-        /// Returns the only the modified nodes from the subtree by checking of the previous cached instance
+        /// Gets the only the modified nodes from the subtree by checking of the previous cached instance
         /// </summary>
         /// <param name="subtree"></param>
         /// <returns></returns>
@@ -891,7 +891,7 @@ namespace ProtoScript.Runners
         }
 
         /// <summary>
-        /// Returns the ASTs from the previous list that no longer exist in the new list
+        /// Get the ASTs from the previous list that no longer exist in the new list
         /// </summary>
         /// <param name="prevASTList"></param>
         /// <param name="newASTList"></param>
@@ -921,7 +921,7 @@ namespace ProtoScript.Runners
         }
 
         /// <summary>
-        /// Returns the ASTs from the previous list that that still exist in the new list
+        /// Get the ASTs from the previous list that that still exist in the new list
         /// </summary>
         /// <param name="prevASTList"></param>
         /// <param name="newASTList"></param>
@@ -1575,12 +1575,9 @@ namespace ProtoScript.Runners
             changeSetComputer.UpdateCachedASTFromSubtrees(syncData.ModifiedSubtrees);
 
             // Prior to execution, apply state modifications to the VM given the delta AST's
-            bool anyForcedExecutedNodes = changeSetComputer.csData.ForceExecuteASTList.Any();
             changeSetApplier.Apply(runnerCore, runtimeCore, changeSetComputer.csData);
-            if (finalDeltaAstList.Any() || anyForcedExecutedNodes)
-            {
-                CompileAndExecuteForDeltaExecution(finalDeltaAstList);
-            }
+
+            CompileAndExecuteForDeltaExecution(finalDeltaAstList);
 
             var guids = runtimeCore.ExecutedAstGuids.ToList();
             executedAstGuids[syncData.SessionID] = guids;

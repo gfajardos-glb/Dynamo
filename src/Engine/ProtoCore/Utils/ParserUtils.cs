@@ -120,7 +120,7 @@ namespace ProtoCore.Utils
         }
 
         /// <summary>
-        /// Returns a parser for the DS code.
+        /// Return a parser for the DS code.
         /// </summary>
         /// <param name="code"></param>
         /// <param name="core"></param>

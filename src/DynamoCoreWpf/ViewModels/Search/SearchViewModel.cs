@@ -107,7 +107,7 @@ namespace Dynamo.ViewModels
         ///     Visible property
         /// </summary>
         /// <value>
-        ///     Indicates whether the View is visible or not
+        ///     Tells whether the View is visible or not
         /// </value>
         private bool visible;
         public bool Visible

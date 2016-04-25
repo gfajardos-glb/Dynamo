@@ -259,7 +259,7 @@ namespace ProtoCore.DSASM
         }
 
         /// <summary>
-        /// Returns true if two procedure nodes have same signature.
+        /// Return true if two procedure nodes have same signature.
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
@@ -335,7 +335,7 @@ namespace ProtoCore.DSASM
         }
 
         /// <summary>
-        /// Returns function with specified name. 
+        /// Return function with specified name. 
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -345,7 +345,7 @@ namespace ProtoCore.DSASM
         }
 
         /// <summary>
-        /// Returns all functions with specified name and the number of argument.
+        /// Return all functions with specified name and the number of argument.
         ///
         /// It also returns function that has default arguments but the total 
         /// parameter number is larger that the specified argument number.
@@ -365,7 +365,7 @@ namespace ProtoCore.DSASM
         }
 
         /// <summary>
-        /// Returns function with specified signature.
+        /// Return function with specified signature.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="args"></param>

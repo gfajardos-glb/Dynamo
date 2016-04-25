@@ -25,7 +25,7 @@ namespace Dynamo.UI
         private Uri _sourceUri;
 
         /// <summary>
-        /// Returns or sets the uniform resource identifier (URI) to load resources from.
+        /// Gets or sets the uniform resource identifier (URI) to load resources from.
         /// </summary>
         public new Uri Source
         {

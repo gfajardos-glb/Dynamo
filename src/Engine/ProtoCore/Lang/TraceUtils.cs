@@ -21,7 +21,7 @@ namespace ProtoCore.Lang
         
 
         /// <summary>
-        /// Returns a list of the keys bound to trace elements
+        /// Get a list of the keys bound to trace elements
         /// This should be extracted from the attribute on the methods
         /// </summary>
         /// <returns></returns>
@@ -33,7 +33,7 @@ namespace ProtoCore.Lang
         }
 
         /// <summary>
-        /// Returns a map of TraceID -> Objects
+        /// Get a map of TraceID -> Objects
         /// </summary>
         /// <returns></returns>
         public static Dictionary<String, ISerializable> GetObjectFromTLS()

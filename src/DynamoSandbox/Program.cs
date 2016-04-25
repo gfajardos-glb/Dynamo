@@ -16,9 +16,6 @@ namespace DynamoSandbox
         {   
             AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
 
-            //Include Dynamo Core path in System Path variable for helix to load properly.
-            UpdateSystemPathForProcess();
-
             var setup = new DynamoCoreSetup(args);
             var app = new Application();
             setup.RunApplication(app);
@@ -58,7 +55,7 @@ namespace DynamoSandbox
         }
 
         /// <summary>
-        /// Returns the path of Dynamo Core installation.
+        /// Gets the path of Dynamo Core installation.
         /// </summary>
         public static string DynamoCorePath
         {
@@ -88,19 +85,6 @@ namespace DynamoSandbox
                 .Where(p => p.VersionInfo.Item1 == version.Major && p.VersionInfo.Item2 == version.Minor)
                 .Select(p => p.InstallLocation)
                 .FirstOrDefault();
-        }
-
-        /// <summary>
-        /// Add Dynamo Core location to the PATH system environment variable.
-        /// This is to make sure dependencies (e.g. Helix assemblies) can be located.
-        /// </summary>
-        private static void UpdateSystemPathForProcess()
-        {
-            var path =
-                    Environment.GetEnvironmentVariable(
-                        "Path",
-                        EnvironmentVariableTarget.Process) + ";" + DynamoCorePath;
-            Environment.SetEnvironmentVariable("Path", path, EnvironmentVariableTarget.Process);
         }
     }
 }

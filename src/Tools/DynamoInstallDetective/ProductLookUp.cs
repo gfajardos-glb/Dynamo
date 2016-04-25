@@ -9,7 +9,7 @@ using Microsoft.Win32;
 namespace DynamoInstallDetective
 {
     /// <summary>
-    /// Specifies an installed product
+    /// Defines an installed product
     /// </summary>
     public interface IInstalledProduct : IComparable
     {
@@ -40,21 +40,21 @@ namespace DynamoInstallDetective
     public interface IProductLookUp
     {
         /// <summary>
-        /// Returns installed product from the installation path
+        /// Gets installed product from the installation path
         /// </summary>
         /// <param name="path">Installation path</param>
         /// <returns>Installed product</returns>
         IInstalledProduct GetProductFromInstallPath(string path);
 
         /// <summary>
-        /// Returns installed product from it's name
+        /// Gets installed product from it's name
         /// </summary>
         /// <param name="name">Product Name for lookup</param>
         /// <returns>Installed product</returns>
         IInstalledProduct GetProductFromProductName(string name);
 
         /// <summary>
-        /// Returns installed product from it's product id
+        /// Gets installed product from it's product id
         /// </summary>
         /// <param name="productCode">Product guid string such as 
         /// {6B5FA6CA-9D69-46CF-B517-1F90C64F7C0B}</param>
@@ -82,7 +82,7 @@ namespace DynamoInstallDetective
         string GetCoreFilePathFromInstallation(string installPath);
 
         /// <summary>
-        /// Returns file version info from the given path.
+        /// Gets file version info from the given path.
         /// </summary>
         /// <param name="filePath">File path</param>
         /// <returns>Version info as Tuple</returns>
@@ -96,18 +96,18 @@ namespace DynamoInstallDetective
     public interface IProductCollection
     {
         /// <summary>
-        /// Returns list of installed products
+        /// Gets list of installed products
         /// </summary>
         IEnumerable<IInstalledProduct> Products { get; }
 
         /// <summary>
-        /// Returns latest product from installation
+        /// Gets latest product from installation
         /// </summary>
         /// <returns>Installed product</returns>
         IInstalledProduct GetLatestProduct();
 
         /// <summary>
-        /// Returns all installed product on the system using the given lookUp 
+        /// Gets all installed product on the system using the given lookUp 
         /// and initializes itself.
         /// </summary>
         /// <param name="lookUp">LookUp interface</param>

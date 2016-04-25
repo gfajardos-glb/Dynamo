@@ -66,26 +66,21 @@ namespace ProtoCore.DSASM
         LE,
 
         // memory allocation
-        NEWARR,         // Allocate array
-        NEWOBJ,         // Allocate object
+        ALLOCA,         // Allocate array
+        ALLOCC,         // Allocate object
 
         PUSH,
         PUSHBLOCK,      // Push construction block id in imperative code
         PUSHM,
         PUSHW,
         PUSHDEP,        // Push symbols in left-hand-side identifier list in impertiave langauge block
+        PUSHINDEX,      // Array indexing
         PUSHREPGUIDE,   // Push replicaion guide to the stack
         PUSHLEVEL,      // Push at-level to the stak
         POP,
         POPW,
         POPM,
         POPREPGUIDES,   // Pop replication guides from stack and save to the core
-
-        LOADELEMENT,    // Load array element
-        SETELEMENT,     // Set element
-        SETMEMElEMENT,  // Set element for member variable
-
-        CAST,
 
         CALL,
         CALLR,
@@ -129,7 +124,6 @@ namespace ProtoCore.DSASM
             newSv.opdata = opdata;
             newSv.metaData = new MetaData { type = metaData.type };
             return newSv;
-
         }
 
         #region Override functions
@@ -163,7 +157,7 @@ namespace ProtoCore.DSASM
 
         #region Get raw values
         /// <summary>
-        /// Returns raw data without checking its type or do type conversion.
+        /// Get raw data without checking its type or do type conversion.
         /// Use with caution.
         /// </summary>
         public long RawData
@@ -960,7 +954,7 @@ namespace ProtoCore.DSASM
         }
 
         /// <summary>
-        /// Returns an array's next key
+        /// Get an array's next key
         /// </summary>
         /// <param name="key"></param>
         /// <param name="core"></param>

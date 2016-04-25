@@ -236,14 +236,14 @@ namespace CoreNodeModels
         }
 
         /// <summary>
-        /// Returns an object in the model from a string identifier.
+        /// Get an object in the model from a string identifier.
         /// </summary>
         /// <param name="id"></param>
         /// <returns>The object or null if the object cannot be found.</returns>
         protected abstract TSelection GetModelObjectFromIdentifer(string id);
 
         /// <summary>
-        /// Returns an object's unique identifier.
+        /// Get an object's unique identifier.
         /// </summary>
         /// <param name="modelObject"></param>
         /// <returns>A unique identifier or null if no unique identifier can be derived.</returns>

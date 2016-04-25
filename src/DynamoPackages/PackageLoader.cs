@@ -134,14 +134,7 @@ namespace Dynamo.PackageManager
                 {
                     if (assem.IsNodeLibrary)
                     {
-                        try
-                        {
-                            OnRequestLoadNodeLibrary(assem.Assembly);
-                        }
-                        catch(Dynamo.Exceptions.LibraryLoadFailedException ex)
-                        {
-                            Log(ex.GetType() + ": " + ex.Message);
-                        }
+                        OnRequestLoadNodeLibrary(assem.Assembly);
                     }
                 }
 

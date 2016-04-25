@@ -221,7 +221,7 @@ namespace ProtoCore
         // Continuation properties used for Serial mode execution and Debugging of Replicated calls
         public ContinuationStructure ContinuationStruct { get; set; }
         /// <summary>
-        /// Returns the reason why the execution was last suspended
+        /// Gets the reason why the execution was last suspended
         /// </summary>
         public ReasonForExecutionSuspend ReasonForExecutionSuspend { get; internal set; }
 

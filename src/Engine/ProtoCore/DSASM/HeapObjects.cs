@@ -38,7 +38,7 @@ namespace ProtoCore.DSASM
         }
 
         /// <summary>
-        /// Returns all keys.
+        /// Get all keys.
         /// </summary>
         /// <param name="core"></param>
         /// <returns></returns>
@@ -58,7 +58,7 @@ namespace ProtoCore.DSASM
             }
         }
         /// <summary>
-        /// Returns all values. 
+        /// Get all values. 
         /// </summary>
         public override IEnumerable<StackValue> Values
         {
@@ -69,7 +69,7 @@ namespace ProtoCore.DSASM
         }
 
         /// <summary>
-        /// Returns true if array contain key or not.
+        /// Return if array contain key or not.
         /// </summary>
         /// <param name="array"></param>
         /// <param name="key"></param>
@@ -184,7 +184,7 @@ namespace ProtoCore.DSASM
         }
 
         /// <summary>
-        /// Returns a list of key-value pairs for an array.
+        /// Get a list of key-value pairs for an array.
         /// </summary>
         /// <param name="array"></param>
         /// <param name="runtimeCore"></param>
@@ -399,7 +399,7 @@ namespace ProtoCore.DSASM
         /// <param name="t"></param>
         /// <param name="core"></param>
         /// <returns></returns>
-        public StackValue SetValueForIndices(List<StackValue> indices, StackValue value, RuntimeCore runtimeCore)
+        public StackValue SetValueForIndices(List<StackValue> indices, StackValue value, Type t, RuntimeCore runtimeCore)
         {
             StackValue[][] zippedIndices = ArrayUtils.GetZippedIndices(indices, runtimeCore);
             if (zippedIndices == null || zippedIndices.Length == 0)
@@ -407,12 +407,15 @@ namespace ProtoCore.DSASM
                 return StackValue.Null;
             }
 
-            var t = TypeSystem.BuildPrimitiveTypeObject(PrimitiveType.Var);
-
             if (zippedIndices.Length == 1)
             {
                 StackValue coercedData = TypeSystem.Coerce(value, t, runtimeCore);
                 return SetValueForIndices(zippedIndices[0], coercedData, runtimeCore);
+            }
+
+            if (t.rank > 0)
+            {
+                t.rank = t.rank - 1;
             }
 
             if (value.IsArray)

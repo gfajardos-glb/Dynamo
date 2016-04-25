@@ -112,7 +112,7 @@ namespace Dynamo.Engine
         }
 
         /// <summary>
-        /// Returns runtime warnings for this run.
+        /// Return runtime warnings for this run.
         /// </summary>
         /// <returns></returns>
         internal IDictionary<Guid, List<ProtoCore.Runtime.WarningEntry>> GetRuntimeWarnings()
@@ -121,7 +121,7 @@ namespace Dynamo.Engine
         }
 
         /// <summary>
-        /// Returns build warnings for this run.
+        /// Return build warnings for this run.
         /// </summary>
         /// <returns></returns>
         internal IDictionary<Guid, List<ProtoCore.BuildData.WarningEntry>> GetBuildWarnings()
@@ -130,7 +130,7 @@ namespace Dynamo.Engine
         }
 
         /// <summary>
-        /// Returns GUIDs of exectued ASTs in this run.
+        /// Return GUIDs of exectued ASTs in this run.
         /// </summary>
         /// <param name="sessionID"></param>
         /// <returns></returns>

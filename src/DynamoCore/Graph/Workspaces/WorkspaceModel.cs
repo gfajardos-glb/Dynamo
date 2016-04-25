@@ -28,20 +28,10 @@ using Utils = Dynamo.Graph.Nodes.Utilities;
 
 namespace Dynamo.Graph.Workspaces
 {
-    /// <summary>
-    /// Represents base class for all kind of workspaces which contains general data 
-    /// such as Name, collections of nodes, notes, annotations, etc.
-    /// </summary>
     public abstract class WorkspaceModel : NotificationObject, ILocatable, IUndoRedoRecorderClient, ILogSource, IDisposable, IWorkspaceModel
     {
-        /// <summary>
-        /// Represents maximum value of workspace zoom
-        /// </summary>
-        public const double ZOOM_MAXIMUM = 4.0;
 
-        /// <summary>
-        /// Represents minimum value of workspace zoom
-        /// </summary>
+        public const double ZOOM_MAXIMUM = 4.0;
         public const double ZOOM_MINIMUM = 0.01;
 
         #region private/internal members
@@ -98,9 +88,9 @@ namespace Dynamo.Graph.Workspaces
         #region events
 
         /// <summary>
-        ///     Function that can be used to respond on a saved workspace.
+        ///     Function that can be used to repsond to a saved workspace.
         /// </summary>
-        /// <param name="model">The <see cref="WorkspaceModel"/> object which has been saved.</param>
+        /// <param name="model"></param>
         public delegate void WorkspaceSavedEvent(WorkspaceModel model);
 
         /// <summary>
@@ -112,8 +102,8 @@ namespace Dynamo.Graph.Workspaces
         /// <summary>
         ///     Requests that a Node or Note model should be centered.
         /// </summary>
-        /// <param name="sender">The workspace object where the event handler is attached.</param>
-        /// <param name="e">The event data containing sufficient information about node.</param>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         internal virtual void OnRequestNodeCentered(object sender, ModelEventArgs e)
         {
             if (RequestNodeCentered != null)
@@ -124,8 +114,8 @@ namespace Dynamo.Graph.Workspaces
         /// <summary>
         ///     Function that can be used to respond to a changed workspace Zoom amount.
         /// </summary>
-        /// <param name="sender">The object where the event handler is attached.</param>
-        /// <param name="e">The event data.</param>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public delegate void ZoomEventHandler(object sender, EventArgs e);
         
         /// <summary>
@@ -136,8 +126,8 @@ namespace Dynamo.Graph.Workspaces
         /// <summary>
         /// Used during open and workspace changes to set the zoom of the workspace
         /// </summary>
-        /// <param name="sender">The object which triggers the event</param>
-        /// <param name="e">The zoom event data.</param>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         internal virtual void OnZoomChanged(object sender, ZoomEventArgs e)
         {
             if (ZoomChanged != null)
@@ -150,8 +140,8 @@ namespace Dynamo.Graph.Workspaces
         /// <summary>
         ///     Function that can be used to respond to a "point event"
         /// </summary>
-        /// <param name="sender">The object where the event handler is attached.</param>
-        /// <param name="e">The event data.</param>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public delegate void PointEventHandler(object sender, EventArgs e);
 
         /// <summary>
@@ -162,8 +152,8 @@ namespace Dynamo.Graph.Workspaces
         /// <summary>
         ///     Used during open and workspace changes to set the location of the workspace
         /// </summary>
-        /// <param name="sender">The object which triggers the event</param>
-        /// <param name="e">The offset event data.</param>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         internal virtual void OnCurrentOffsetChanged(object sender, PointEventArgs e)
         {
             if (CurrentOffsetChanged != null)
@@ -322,9 +312,9 @@ namespace Dynamo.Graph.Workspaces
         }
 
         /// <summary>
-        /// Implement recording node modification for undo/redo.
+        /// Implement to record node modification for undo/redo
         /// </summary>
-        /// <param name="models">Collection of <see cref="ModelBase"/> objects to record.</param>
+        /// <param name="models"></param>
         public void RecordModelsForModification(IEnumerable<ModelBase> models)
         {
             RecordModelsForModification(models.ToList(), undoRecorder);
@@ -349,16 +339,15 @@ namespace Dynamo.Graph.Workspaces
             if (handler != null) handler(obj);
         }
 
-        private void OnSyncWithDefinitionStart(NodeModel nodeModel)
+        public void OnSyncWithDefintionStart(NodeModel nodeModel)
         {
             hasNodeInSyncWithDefinition = true;
         }
 
-        private void OnSyncWithDefinitionEnd(NodeModel nodeModel)
+        public void OnSyncWithDefinitionEnd(NodeModel nodeModel)
         {
             hasNodeInSyncWithDefinition = false;
         }
-
         #endregion
 
         #region public properties
@@ -429,8 +418,7 @@ namespace Dynamo.Graph.Workspaces
         /// <summary>
         ///     All of the nodes currently in the workspace.
         /// </summary>
-        public IEnumerable<NodeModel> Nodes 
-        { 
+        public IEnumerable<NodeModel> Nodes { 
             get 
             {
                 IEnumerable<NodeModel> nodesClone;
@@ -481,7 +469,8 @@ namespace Dynamo.Graph.Workspaces
 
             OnNodesCleared();
         }
-        
+
+
         /// <summary>
         ///     All of the connectors currently in the workspace.
         /// </summary>
@@ -496,7 +485,7 @@ namespace Dynamo.Graph.Workspaces
         }
 
         /// <summary>
-        ///     Returns the notes <see cref="NoteModel"/> collection.
+        ///     All of the notes currently in the workspace.
         /// </summary>
         public IEnumerable<NoteModel> Notes
         {
@@ -512,9 +501,6 @@ namespace Dynamo.Graph.Workspaces
             }
         }
 
-        /// <summary>
-        ///     Returns all of the annotations currently present in the workspace.
-        /// </summary>
         public IEnumerable<AnnotationModel> Annotations
         {
             get
@@ -556,7 +542,7 @@ namespace Dynamo.Graph.Workspaces
         }
 
         /// <summary>
-        ///     Returns or set the X position of the workspace.
+        ///     Get or set the X position of the workspace.
         /// </summary>
         public double X
         {
@@ -569,7 +555,7 @@ namespace Dynamo.Graph.Workspaces
         }
 
         /// <summary>
-        ///     Returns or set the Y position of the workspace
+        ///     Get or set the Y position of the workspace
         /// </summary>
         public double Y
         {
@@ -581,9 +567,6 @@ namespace Dynamo.Graph.Workspaces
             }
         }
 
-        /// <summary>
-        ///     Get or set the zoom value of the workspace.
-        /// </summary>
         public double Zoom
         {
             get { return zoom; }
@@ -595,7 +578,7 @@ namespace Dynamo.Graph.Workspaces
         }
 
         /// <summary>
-        ///     Returns the height of the workspace's bounds.
+        ///     Get the height of the workspace's bounds.
         /// </summary>
         public double Height
         {
@@ -608,7 +591,7 @@ namespace Dynamo.Graph.Workspaces
         }
 
         /// <summary>
-        ///     Returns the width of the workspace's bounds.
+        ///     Get the width of the workspace's bounds.
         /// </summary>
         public double Width
         {
@@ -621,7 +604,7 @@ namespace Dynamo.Graph.Workspaces
         }
 
         /// <summary>
-        ///     Returns the bounds of the workspace.
+        ///     Get the bounds of the workspace.
         /// </summary>
         public Rect2D Rect
         {
@@ -647,20 +630,12 @@ namespace Dynamo.Graph.Workspaces
         //TODO(Steve): This probably isn't needed inside of WorkspaceModel -- MAGN-5714
         internal Version WorkspaceVersion { get; set; }
 
-        /// <summary>
-        /// Implements <see cref="ILocatable.CenterX"/> property.
-        /// </summary>
-        // TODO: make a better implementation of this property
         public double CenterX
         {
             get { return 0; }
             set { }
         }
 
-        /// <summary>
-        /// Implements <see cref="ILocatable.CenterY"/> property.
-        /// </summary>
-        // TODO: make a better implementation of this property
         public double CenterY
         {
             get { return 0; }
@@ -668,7 +643,7 @@ namespace Dynamo.Graph.Workspaces
         }
 
         /// <summary>
-        /// Returns the current UndoRedoRecorder that is associated with the current 
+        /// Get the current UndoRedoRecorder that is associated with the current 
         /// WorkspaceModel. Note that external parties should not have the needs 
         /// to access the recorder directly, so this property is exposed just as 
         /// a "temporary solution". Before using this property, consider using 
@@ -680,11 +655,7 @@ namespace Dynamo.Graph.Workspaces
             get { return undoRecorder; }
         }
 
-        /// <summary>
-        /// Returns <see cref="ElementResolver"/>. This property resolves partial class name to fully resolved name.
-        /// </summary>
         public ElementResolver ElementResolver { get; protected set; }
-
         /// <summary>
         /// A unique identifier for the workspace.
         /// </summary>
@@ -792,13 +763,14 @@ namespace Dynamo.Graph.Workspaces
 
             Disposed = null;
         }
+
      
         #endregion
 
         #region public methods
 
         /// <summary>
-        /// Returns appropriate name of workspace for sharing.
+        ///     Gets appropriate name of workspace for sharing.
         /// </summary>
         public virtual string GetSharedName()
         {
@@ -857,8 +829,7 @@ namespace Dynamo.Graph.Workspaces
         ///     If successful, the CurrentWorkspace.FilePath field is updated as a side effect
         /// </summary>
         /// <param name="newPath">The path to save to</param>
-        /// <param name="runtimeCore">The <see cref="ProtoCore.RuntimeCore"/> object 
-        /// to obtain serialized trace data for node list to save.</param>
+        /// <param name="runtimeCore"></param>
         /// <param name="isBackup">Indicates whether saved workspace is backup or not. If it's not backup,
         /// we should add it to recent files. Otherwise leave it.</param>
         public virtual bool SaveAs(string newPath, ProtoCore.RuntimeCore runtimeCore, bool isBackup = false)
@@ -886,8 +857,6 @@ namespace Dynamo.Graph.Workspaces
         /// <summary>
         ///     Adds a node to this workspace.
         /// </summary>
-        /// <param name="node">The node which is being added to the workspace.</param>
-        /// <param name="centered">Indicates if the node should be placed at the center of workspace.</param>
         internal void AddAndRegisterNode(NodeModel node, bool centered = false)
         {
             if (nodes.Contains(node))
@@ -917,7 +886,7 @@ namespace Dynamo.Graph.Workspaces
             var functionNode = node as Function;
             if (functionNode != null)
             {
-                functionNode.Controller.SyncWithDefinitionStart += OnSyncWithDefinitionStart;
+                functionNode.Controller.SyncWithDefinitionStart += OnSyncWithDefintionStart;
                 functionNode.Controller.SyncWithDefinitionEnd += OnSyncWithDefinitionEnd;
             }
         }
@@ -944,7 +913,7 @@ namespace Dynamo.Graph.Workspaces
         /// Removes a node from this workspace. 
         /// This method does not raise a NodesModified event. (LC notes this is clearly not true)
         /// </summary>
-        /// <param name="model">The node which is being removed from the worksapce.</param>
+        /// <param name="model"></param>
         internal void RemoveNode(NodeModel model)
         {
             lock (nodes)
@@ -961,7 +930,7 @@ namespace Dynamo.Graph.Workspaces
             var functionNode = model as Function;
             if (functionNode != null)
             {
-                functionNode.Controller.SyncWithDefinitionStart -= OnSyncWithDefinitionStart;
+                functionNode.Controller.SyncWithDefinitionStart -= OnSyncWithDefintionStart;
                 functionNode.Controller.SyncWithDefinitionEnd -= OnSyncWithDefinitionEnd;
             }
             model.ConnectorAdded -= OnConnectorAdded;
@@ -1495,7 +1464,7 @@ namespace Dynamo.Graph.Workspaces
         }
 
         /// <summary>
-        /// Returns the model from Workspace
+        /// Get the model from Workspace
         /// </summary>
         /// <param name="modelGuid">The model unique identifier.</param>
         /// <returns></returns>
@@ -1535,8 +1504,6 @@ namespace Dynamo.Graph.Workspaces
         /// <summary>
         /// Save assuming that the Filepath attribute is set.
         /// </summary>
-        /// <param name="runtimeCore">The <see cref="ProtoCore.RuntimeCore"/> object 
-        /// to obtain serialized trace data for node list to save.</param>
         public virtual bool Save(ProtoCore.RuntimeCore runtimeCore)
         {
             return SaveAs(FileName, runtimeCore);
@@ -1566,7 +1533,7 @@ namespace Dynamo.Graph.Workspaces
         }
 
         /// <summary>
-        /// Returns the nodes in the graph that have no inputs or have none of their inputs filled
+        /// Return the nodes in the graph that have no inputs or have none of their inputs filled
         /// </summary>
         /// <returns></returns>
         internal IEnumerable<NodeModel> GetSourceNodes()
@@ -1593,9 +1560,6 @@ namespace Dynamo.Graph.Workspaces
             }
         }
 
-        /// <summary>
-        ///     Called when workspace position is changed. This method notifyies all the listeners when a workspace is changed.
-        /// </summary>
         public void ReportPosition()
         {
             RaisePropertyChanged("Position");
@@ -1612,7 +1576,6 @@ namespace Dynamo.Graph.Workspaces
         #endregion
 
         #region Presets
-
         /// <summary>
         ///  this method creates a new preset state from a set of NodeModels and adds this new state to this presets collection
         /// </summary>
@@ -1637,10 +1600,6 @@ namespace Dynamo.Graph.Workspaces
             return newstate;
         }
 
-        /// <summary>
-        /// Removes a specified <see cref="PresetModel"/> object from the preset collection of the workspace.
-        /// </summary>
-        /// <param name="state"><see cref="PresetModel"/> object to remove.</param>
         public void RemovePreset(PresetModel state)
         {
             if (Presets.Contains(state))
@@ -1685,7 +1644,6 @@ namespace Dynamo.Graph.Workspaces
                 }
             }
         }
-
         internal PresetModel AddPreset(string name, string description, IEnumerable<Guid> IDSToSave)
         {
                 //lookup the nodes by their ID, can also check that we find all of them....
@@ -1696,10 +1654,6 @@ namespace Dynamo.Graph.Workspaces
                 return newpreset;
         }
 
-        /// <summary>
-        /// Adds a specified collection <see cref="PresetModel"/> objects to the preset collection of the workspace.
-        /// </summary>
-        /// <param name="presetCollection"><see cref="PresetModel"/> objects to add.</param>
         public void ImportPresets(IEnumerable<PresetModel> presetCollection)
         {
             presets.AddRange(presetCollection);
@@ -2284,11 +2238,6 @@ namespace Dynamo.Graph.Workspaces
 
         #region IUndoRedoRecorderClient Members
 
-        /// <summary>
-        /// Deletes <see cref="ModelBase"/> object given by <see cref="XmlElement"/> 
-        /// from a corresponding collection of the workspace.
-        /// </summary>
-        /// <param name="modelData"><see cref="ModelBase"/> object given by <see cref="XmlElement"/></param>
         public void DeleteModel(XmlElement modelData)
         {
             //When there is a Redo operation, model is removed from 
@@ -2327,10 +2276,6 @@ namespace Dynamo.Graph.Workspaces
             }
         }
 
-        /// <summary>
-        /// Deletes <see cref="AnnotationModel"/> object from annotation collection of the workspace.
-        /// </summary>
-        /// <param name="model"><see cref="AnnotationModel"/> object to remove.</param>
         public void RemoveGroup(ModelBase model)
         {
             var annotation = model as AnnotationModel;
@@ -2338,21 +2283,12 @@ namespace Dynamo.Graph.Workspaces
             annotation.Dispose();
         }
 
-        /// <summary>
-        /// Updates <see cref="ModelBase"/> object with given xml data
-        /// </summary>
-        /// <param name="modelData">Xml data to update model</param>
         public void ReloadModel(XmlElement modelData)
         {
             ModelBase model = GetModelForElement(modelData);
             model.Deserialize(modelData, SaveContext.Undo);
         }
 
-        /// <summary>
-        /// Creates <see cref="ModelBase"/> object by given xml data and 
-        /// adds it to corresponding collection of the workspace.
-        /// </summary>
-        /// <param name="modelData">Xml data to create model</param>
         public void CreateModel(XmlElement modelData)
         {
             var helper = new XmlElementHelper(modelData);
@@ -2370,6 +2306,18 @@ namespace Dynamo.Graph.Workspaces
                         string.Format("No type information: {0}", guid));
                 }
             }
+
+            /*
+            if (typeName.Equals("Dynamo.Graph.Nodes.ZeroTouch.DSFunction") ||
+                typeName.Equals("Dynamo.Graph.Nodes.ZeroTouch.DSVarArgFunction"))
+            {
+                // For DSFunction and DSVarArgFunction node types, the type name
+                // is actually embedded within "name" attribute (for an example,
+                // "UV.ByCoordinates@double,double").
+                // 
+                typeName = modelData.Attributes["name"].Value;
+            }
+            */
 
             if (typeName.Contains("ConnectorModel"))
             {
@@ -2450,11 +2398,6 @@ namespace Dynamo.Graph.Workspaces
             }
         }
 
-        /// <summary>
-        /// Gets model by GUID which is contained in given Xml data.
-        /// </summary>
-        /// <param name="modelData">Xml data to find model.</param>
-        /// <returns>Found <see cref="ModelBase"/> object.</returns>
         public ModelBase GetModelForElement(XmlElement modelData)
         {
             // TODO(Ben): This may or may not be true, but I guess we should be 
@@ -2478,11 +2421,6 @@ namespace Dynamo.Graph.Workspaces
                 string.Format("Unhandled model type: {0}", helper.ReadString("type", modelData.Name)));
         }
 
-        /// <summary>
-        /// Returns model by GUID
-        /// </summary>
-        /// <param name="modelGuid">Identifier of the requested model.</param>
-        /// <returns>Found <see cref="ModelBase"/> object.</returns>
         public ModelBase GetModelInternal(Guid modelGuid)
         {
             ModelBase foundModel = (Connectors.FirstOrDefault(c => c.GUID == modelGuid)
@@ -2494,11 +2432,6 @@ namespace Dynamo.Graph.Workspaces
             return foundModel;
         }
 
-        /// <summary>
-        /// Gets model list by their GUIDs
-        /// </summary>
-        /// <param name="modelGuids">Identifiers of the requested models.</param>
-        /// <returns>All found <see cref="ModelBase"/> objects.</returns>
         private IEnumerable<ModelBase> GetModelsInternal(IEnumerable<Guid> modelGuids)
         {
             var foundModels = new List<ModelBase>();
@@ -2618,10 +2551,6 @@ namespace Dynamo.Graph.Workspaces
         }
          
         #region ILogSource implementation
-
-        /// <summary>
-        /// Triggers when something needs to be logged
-        /// </summary>
         public event Action<ILogMessage> MessageLogged;
 
         protected void Log(ILogMessage obj)

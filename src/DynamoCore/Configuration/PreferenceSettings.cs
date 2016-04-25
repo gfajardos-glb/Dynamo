@@ -19,47 +19,19 @@ namespace Dynamo.Configuration
     /// </summary>
     public class PreferenceSettings : NotificationObject, IPreferences
     {
+        public const int DefaultMaxNumRecentFiles = 10;
+        public static string DynamoTestPath = null;
         private string numberFormat;
         private string lastUpdateDownloadPath;
         private int maxNumRecentFiles;
-
-        /// <summary>
-        /// Indicates the maximum number of files shown in Recent Files
-        /// </summary>
-        internal const int DefaultMaxNumRecentFiles = 10;
-
-        /// <summary>
-        /// Temp PreferenceSetting Location for testing
-        /// </summary>
-        public static string DynamoTestPath = null;
-
-        /// <summary>
-        /// Default date format
-        /// </summary>
         public const string DefaultDateFormat = "MMMM dd, yyyy h:mm tt";
-
-        /// <summary>
-        /// Default time
-        /// </summary>
         public static readonly System.DateTime DynamoDefaultTime = new System.DateTime(1977, 4, 12, 12, 12, 0, 0);
 
         // Variables of the settings that will be persistent
 
         #region Collect Information Settings
-
-        /// <summary>
-        /// Indicates first run
-        /// </summary>
         public bool IsFirstRun { get; set; }
-
-        /// <summary>
-        /// Indicates whether usage reporting is approved or not.
-        /// </summary>
         public bool IsUsageReportingApproved { get; set; }
-
-        /// <summary>
-        /// Indicates whether analytics reporting is approved or not.
-        /// </summary>
         public bool IsAnalyticsReportingApproved { get; set; }
         #endregion
 
@@ -205,9 +177,6 @@ namespace Dynamo.Configuration
         /// </summary>
         public bool OpenFileInManualExecutionMode { get; set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PreferenceSettings"/> class.
-        /// </summary>
         public PreferenceSettings()
         {
             RecentFiles = new List<string>();
@@ -242,7 +211,7 @@ namespace Dynamo.Configuration
         }
 
         /// <summary>
-        /// Saves PreferenceSettings in XML File Path if possible,
+        /// Save PreferenceSettings in XML File Path if possible,
         /// else return false
         /// </summary>
         /// <param name="filePath">Path of the XML File</param>
@@ -269,7 +238,7 @@ namespace Dynamo.Configuration
         }
 
         /// <summary>
-        /// Saves PreferenceSettings in a default directory when no path is 
+        /// Save PreferenceSettings in a default directory when no path is 
         /// specified.
         /// </summary>
         /// <param name="preferenceFilePath">The file path to save preference
@@ -287,7 +256,7 @@ namespace Dynamo.Configuration
         }
 
         /// <summary>
-        /// Returns PreferenceSettings from XML path if possible,
+        /// Return PreferenceSettings from XML path if possible,
         /// else return PreferenceSettings with default values
         /// </summary>
         /// <param name="filePath">Path of the XML File</param>

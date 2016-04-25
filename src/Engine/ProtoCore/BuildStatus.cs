@@ -285,6 +285,7 @@ namespace ProtoCore
         private readonly bool LogWarnings = true;
         private readonly bool logErrors = true;
         private readonly bool displayBuildResult = true;
+        private readonly bool warningAsError;
 
         public IOutputStream MessageHandler { get; set; }
         public WebOutputStream WebMsgHandler { get; set; }
@@ -321,17 +322,20 @@ namespace ProtoCore
         {
             get
             {
-                return ErrorCount == 0;
+                return warningAsError 
+                    ? (ErrorCount == 0 && WarningCount == 0)
+                    : (ErrorCount == 0);
             }
         }
 
         //  logs all errors and warnings by default
         //
-        public BuildStatus(Core core, System.IO.TextWriter writer = null, bool errorAsWarning = false)
+        public BuildStatus(Core core,bool warningAsError, System.IO.TextWriter writer = null, bool errorAsWarning = false)
         {
             this.core = core;
             warnings = new List<BuildData.WarningEntry>();
             errors = new List<BuildData.ErrorEntry>();
+            this.warningAsError = warningAsError;
 
             if (writer != null)
             {

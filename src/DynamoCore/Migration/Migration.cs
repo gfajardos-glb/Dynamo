@@ -41,9 +41,6 @@ namespace Dynamo.Migration
         }
     }
 
-    /// <summary>
-    /// This class contains methods and properties used for migration of Dynamo workspaces.
-    /// </summary>
     public class MigrationManager : LogSourceBase
     {
         /// <summary>
@@ -91,31 +88,26 @@ namespace Dynamo.Migration
         ///     Functions that can be used as a callback in the event a file from a later version of Dynamo
         ///     is attempting to be loaded.
         /// </summary>
-        /// <param name="fileName">Name of file to load</param>
-        /// <param name="fileVersion">Version of file to load</param>
-        /// <param name="currentVersion">Current Dynamo version</param>
-        /// <returns>Resume value</returns>
+        /// <param name="fileName"></param>
+        /// <param name="fileVersion"></param>
+        /// <param name="currentVersion"></param>
+        /// <returns></returns>
         public delegate bool FutureFileCallback(string fileName, Version fileVersion, Version currentVersion);
 
         /// <summary>
         ///     Functions that can be used as a callback in the event an obsolete file is attempted to be loaded.
         /// </summary>
-        /// <param name="fileName">Name of file to load</param>
-        /// <param name="fileVersion">Version of file to load</param>
-        /// <param name="currentVersion">Current Dynamo version</param>
+        /// <param name="fileName"></param>
+        /// <param name="fileVersion"></param>
+        /// <param name="currentVersion"></param>
         public delegate void ObsoleteFileCallback(string fileName, Version fileVersion, Version currentVersion);
 
         private readonly FutureFileCallback displayFutureFileMessage;
         private readonly ObsoleteFileCallback displayObsoleteFileMessage;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="MigrationManager"/> class
+        /// The private constructor.
         /// </summary>
-        /// <param name="displayFutureFileMessage">Functions that can be used 
-        /// as a callback in the event a file from a later version of Dynamo
-        /// is attempting to be loaded</param>
-        /// <param name="displayObsoleteFileMessage">Functions that can be used 
-        /// as a callback in the event an obsolete file is attempted to be loaded.</param>
         public MigrationManager(FutureFileCallback displayFutureFileMessage, ObsoleteFileCallback displayObsoleteFileMessage)
         {
             this.displayFutureFileMessage = displayFutureFileMessage;
@@ -126,7 +118,7 @@ namespace Dynamo.Migration
         /// <summary>
         ///     Adds a new type containing Migration methods into this manager.
         /// </summary>
-        /// <param name="t">Type data to add</param>
+        /// <param name="t"></param>
         public void AddMigrationType(TypeLoadData t)
         {
             nodeMigrationLookup[t.Type.FullName] = t.Type;
@@ -141,11 +133,11 @@ namespace Dynamo.Migration
         /// <summary>
         ///     Attempts to migrate a workspace to the current version of Dynamo.
         /// </summary>
-        /// <param name="workspaceInfo">Information about workspace to migrate</param>
-        /// <param name="xmlDoc">Xml data about workspace to migrate</param>
-        /// <param name="isTestMode">Indicates if current code is running in tests</param>
-        /// <param name="factory">Factory to create nodes</param>
-        /// <returns>True if the workspace is migrated successfully</returns>
+        /// <param name="workspaceInfo"></param>
+        /// <param name="xmlDoc"></param>
+        /// <param name="isTestMode"></param>
+        /// <param name="factory"></param>
+        /// <returns></returns>
         public bool ProcessWorkspace(WorkspaceInfo workspaceInfo, XmlDocument xmlDoc, bool isTestMode, NodeFactory factory)
         {
             Version fileVersion = VersionFromString(workspaceInfo.Version);
@@ -212,9 +204,9 @@ namespace Dynamo.Migration
         /// <summary>
         /// Runs all migration methods found on the listed migration target types.
         /// </summary>
-        /// <param name="currentVersion">Current Dynamo version</param>
-        /// <param name="xmlDoc">Xml data about workspace to migrate</param>
-        /// <param name="workspaceVersion">Version of workspace to migrate</param>
+        /// <param name="currentVersion"></param>
+        /// <param name="xmlDoc"></param>
+        /// <param name="workspaceVersion"></param>
         public void ProcessWorkspaceMigrations(Version currentVersion, XmlDocument xmlDoc, Version workspaceVersion)
         {
             var methods = MigrationTargets.SelectMany(x => x.GetMethods(BindingFlags.Public | BindingFlags.Static));
@@ -242,15 +234,8 @@ namespace Dynamo.Migration
             }
         }
 
-        /// <summary>
-        /// Attempts to migrate nodes in a workspace to the current version of Dynamo.
-        /// </summary>
-        /// <param name="xmlDoc">Xml data about workspace with nodes to migrate</param>
-        /// <param name="workspaceVersion">Version of workspace to migrate</param>
-        /// <param name="currentVersion">Current Dynamo version</param>
-        /// <param name="nodeFactory">Factory to create nodes</param>
-        public void ProcessNodesInWorkspace(XmlDocument xmlDoc, Version workspaceVersion, 
-            Version currentVersion, NodeFactory nodeFactory)
+        public void ProcessNodesInWorkspace(
+            XmlDocument xmlDoc, Version workspaceVersion, Version currentVersion, NodeFactory nodeFactory)
         {
             if (DynamoModel.EnableMigrationLogging)
             {
@@ -304,16 +289,7 @@ namespace Dynamo.Migration
                 elNodesList.AppendChild(migratedNode);
         }
 
-        /// <summary>
-        /// Attempts to migrate a node to the current version of Dynamo by given xml data
-        /// </summary>
-        /// <param name="currentVersion">Current Dynamo version</param>
-        /// <param name="elNode">Xml data about node to migrate</param>
-        /// <param name="type">Type of node</param>
-        /// <param name="workspaceVersion">Version of workspace which the node belongs to</param>
-        /// <returns>Data about migration of the node</returns>
-        public NodeMigrationData MigrateXmlNode(Version currentVersion, XmlNode elNode, 
-            Type type, Version workspaceVersion)
+        public NodeMigrationData MigrateXmlNode(Version currentVersion, XmlNode elNode, Type type, Version workspaceVersion)
         {
             var migrations = (from method in type.GetMethods()
                               let attribute =
@@ -591,14 +567,15 @@ namespace Dynamo.Migration
         /// basic function node information.
         /// </summary>
         /// <param name="document">The XmlDocument to create the node in.</param>
-        /// <param name="oldNode">Base node to create a new one</param>
-        /// <param name="nodeIndex">Index of the node</param>
+        /// <param name="oldNode"></param>
+        /// <param name="nodeIndex"></param>
         /// <param name="assembly">Name of the assembly that implements this 
         /// function.</param>
         /// <param name="nickname">The nickname to display on the node.</param>
         /// <param name="signature">The signature of the function.</param>
         /// <returns>Returns the XmlElement that represents a DSFunction node 
         /// with its basic function information with default attributes.</returns>
+        /// 
         public static XmlElement CreateFunctionNode(XmlDocument document, XmlElement oldNode,
             int nodeIndex, string assembly, string nickname, string signature)
         {
@@ -624,19 +601,6 @@ namespace Dynamo.Migration
             return element;
         }
 
-        /// <summary>
-        /// Call this method to create an empty DSVarArgFunction node that contains 
-        /// basic function node information.
-        /// </summary>
-        /// <param name="document">The XmlDocument to create the node in.</param>
-        /// <param name="oldNode">Base node to create a new one</param>
-        /// <param name="nodeIndex">Index of the node</param>
-        /// <param name="assembly">Name of the assembly that implements this 
-        /// function.</param>
-        /// <param name="nickname">The nickname to display on the node.</param>
-        /// <param name="signature">The signature of the function.</param>
-        /// <returns>Returns the XmlElement that represents a DSVarArgFunction node 
-        /// with its basic function information with default attributes.</returns>
         public static XmlElement CreateVarArgFunctionNode(XmlDocument document, XmlElement oldNode,
             int nodeIndex, string assembly, string nickname, string signature, string inputcount)
         {
@@ -663,24 +627,14 @@ namespace Dynamo.Migration
             return element;
         }
 
-        /// <summary>
-        /// This method creates an empty CodeBlockNodeModel node that contains 
-        /// basic code block node information.
-        /// </summary>
-        /// <param name="document">The XmlDocument to create the node in.</param>
-        /// <param name="oldNode">Base node to create a new one</param>
-        /// <param name="nodeIndex">Index of the node</param>
-        /// <param name="codeText">Code block content</param>
-        /// <returns>Returns the XmlElement that represents a CodeBlockNodeModel node 
-        /// with its basic function information with default attributes.</returns>
         public static XmlElement CreateCodeBlockNodeModelNode(XmlDocument document, XmlElement oldNode,
-            int nodeIndex, string codeText)
+            int nodeIndex, string codeTest)
         {
             XmlElement element = document.CreateElement("Dynamo.Graph.Nodes.CodeBlockNodeModel");
             element.SetAttribute("type", "Dynamo.Graph.Nodes.CodeBlockNodeModel");
 
             element.SetAttribute("nickname", "Code Block");
-            element.SetAttribute("CodeText", codeText);
+            element.SetAttribute("CodeText", codeTest);
             element.SetAttribute("ShouldFocus", "false");
 
             // Attributes with default values (as in DynamoModel.OpenWorkspace).
@@ -699,17 +653,6 @@ namespace Dynamo.Migration
             return element;
         }
 
-        /// <summary>
-        /// This method creates an empty NodeModel node that contains 
-        /// basic code block node information.
-        /// </summary>
-        /// <param name="document">The XmlDocument to create the node in.</param>
-        /// <param name="oldNode">Base node to create a new one</param>
-        /// <param name="nodeIndex">Index of the node</param>
-        /// <param name="name">Node name</param>
-        /// <param name="nickname">Name to display on the node</param>
-        /// <returns>Returns the XmlElement that represents a NodeModel node 
-        /// with its basic function information with default attributes.</returns>
         public static XmlElement CreateNode(XmlDocument document, XmlElement oldNode,
             int nodeIndex, string name, string nickname)
         {
@@ -748,7 +691,9 @@ namespace Dynamo.Migration
         /// duplicated from srcElement. The resulting XmlElement will also have
         /// a mandatory "type" attribute with value "Dynamo.Graph.Nodes.ZeroTouch.DSFunction".
         /// </returns>
-        public static XmlElement CreateFunctionNodeFrom(XmlElement srcElement, string[] attribNames)
+        /// 
+        public static XmlElement CreateFunctionNodeFrom(
+            XmlElement srcElement, string[] attribNames)
         {
             if (srcElement == null)
                 throw new ArgumentNullException("srcElement");
@@ -771,15 +716,14 @@ namespace Dynamo.Migration
         /// <summary>
         /// Create a custom node as a replacement for an existing node.
         /// </summary>
-        /// <param name="document">The XmlDocument to create the node in.</param>
-        /// <param name="srcElement">The source XmlElement object.</param>
+        /// <param name="document"></param>
+        /// <param name="srcElement"></param>
         /// <param name="id">The custom node id.</param>
         /// <param name="name">The custom node name.</param>
         /// <param name="description">The custom node's description.</param>
         /// <param name="inputs">A list of input names.</param>
         /// <param name="outputs">A list of output names.</param>
-        /// <returns>Returns the XmlElement that represents a custom node 
-        /// with its basic function information with default attributes.</returns>
+        /// <returns></returns>
         public static XmlElement CreateCustomNodeFrom(XmlDocument document, XmlElement srcElement,
             string id, string name, string description, List<string> inputs, List<string> outputs)
         {
@@ -836,6 +780,7 @@ namespace Dynamo.Migration
         /// found in the source XmlElement. The resulting XmlElement will also 
         /// have a mandatory "type" attribute with value "Dynamo.Graph.Nodes.ZeroTouch.DSFunction".
         /// </returns>
+        /// 
         public static XmlElement CreateFunctionNodeFrom(XmlElement srcElement)
         {
             if (srcElement == null)
@@ -851,15 +796,6 @@ namespace Dynamo.Migration
             return dstElement;
         }
 
-        /// <summary>
-        /// This method creates a duplicated XmlElement representing DSVarArgFunction
-        /// with all the attributes found from the source XmlElement.
-        /// </summary>
-        /// <param name="srcElement">The source XmlElement to duplicate.</param>
-        /// <returns>Returns the duplicated XmlElement representing DSVarArgFunction
-        /// with all attributes found in the source XmlElement. 
-        /// The resulting XmlElement will also have a mandatory "type" attribute 
-        /// with value "Dynamo.Graph.Nodes.ZeroTouch.DSVarArgFunction".</returns>
         public static XmlElement CreateVarArgFunctionNodeFrom(XmlElement srcElement)
         {
             if (srcElement == null)
@@ -889,6 +825,7 @@ namespace Dynamo.Migration
         /// attributes will be added.</param>
         /// <returns>Returns an XmlElement that represents the resulting Code
         /// Block node.</returns>
+        /// 
         public static XmlElement CreateCodeBlockNodeFrom(XmlElement srcElement)
         {
             if (srcElement == null)
@@ -917,11 +854,9 @@ namespace Dynamo.Migration
         /// updated.</param>
         /// <param name="type">The fully qualified name of the new type.</param>
         /// <param name="nickname">The new nickname, by which this node is known.</param>
-        /// <param name="cloneInnerXml">Parameter indicating whether the inner xml 
-        /// of the original node should be cloned.</param>
+        /// <param name="cloneInnerXml">Parameter indicating whether the inner xml of the original node should be cloned.</param>
         /// <returns>Returns the cloned and updated XmlElement.</returns>
-        public static XmlElement CloneAndChangeName(XmlElement element, string type, 
-            string nickname, bool cloneInnerXml = false)
+        public static XmlElement CloneAndChangeName(XmlElement element, string type, string nickname, bool cloneInnerXml = false)
         {
             XmlDocument document = element.OwnerDocument;
             XmlElement cloned = document.CreateElement(type);
@@ -939,6 +874,7 @@ namespace Dynamo.Migration
             return cloned;
         }
 
+
         /// <summary>
         /// Call this method to create a dummy node, should a node failed to be 
         /// migrated. This results in a dummy node with a description of what the 
@@ -954,7 +890,9 @@ namespace Dynamo.Migration
         /// new dummy node. This number must be a positive number greater or 
         /// equal to zero.</param>
         /// <returns>Returns a new XmlElement representing the dummy node.</returns>
-        public static XmlElement CreateDummyNode(XmlElement element, int inportCount, int outportCount)
+        /// 
+        public static XmlElement CreateDummyNode(
+            XmlElement element, int inportCount, int outportCount)
         {
             if (element == null)
                 throw new ArgumentNullException("element");
@@ -1011,20 +949,15 @@ namespace Dynamo.Migration
         /// new dummy node. This number must be a positive number greater or 
         /// equal to zero.</param>
         /// <returns>Returns a new XmlElement representing the dummy node.</returns>
-        public static XmlElement CreateMissingNode(XmlElement element, int inportCount, int outportCount)
+        /// 
+        public static XmlElement CreateMissingNode(
+            XmlElement element, int inportCount, int outportCount)
         {
             var dummy = CreateDummyNode(element, inportCount, outportCount);
             dummy.SetAttribute("nodeNature", "Unresolved");
             return dummy;
         }
 
-        /// <summary>
-        /// Sets function data such as assembly, nickname and function name
-        /// </summary>
-        /// <param name="element">Xml element where to set data</param>
-        /// <param name="assemblyName">Assembly name of the function</param>
-        /// <param name="methodName">Nickname of the function</param>
-        /// <param name="signature">Name of the function</param>
         public static void SetFunctionSignature(XmlElement element,
             string assemblyName, string methodName, string signature)
         {
@@ -1033,11 +966,6 @@ namespace Dynamo.Migration
             element.SetAttribute("function", signature);
         }
 
-        /// <summary>
-        /// Returns node guid specified in given <see cref="XmlElement"/>
-        /// </summary>
-        /// <param name="element"><see cref="XmlElement"/> containing node guid</param>
-        /// <returns>Guid of the node</returns>
         public static string GetGuidFromXmlElement(XmlElement element)
         {
             return element.Attributes["guid"].Value;
@@ -1368,29 +1296,12 @@ namespace Dynamo.Migration
         }
     }
 
-    /// <summary>
-    /// Specifies versions which workspace should be migrated between.
-    /// </summary>
     [AttributeUsage(AttributeTargets.Method)]
     public class WorkspaceMigrationAttribute : Attribute
     {
-        /// <summary>
-        /// Returns version which workspace should be migrated from.
-        /// </summary>
         public Version From { get; private set; }
-
-        /// <summary>
-        /// Returns version which workspace should be migrated to.
-        /// </summary>
         public Version To { get; private set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WorkspaceMigrationAttribute"/> class 
-        /// with the versions which workspace should be migrated between.
-        /// </summary>
-        /// <param name="from">Version which workspace should be migrated from.</param>
-        /// <param name="to">Version which workspace should be migrated to. 
-        /// This parameter can be omitted that means workspace should migrate to the latest version</param>
         public WorkspaceMigrationAttribute(string from, string to = "")
         {
             From = new Version(from);

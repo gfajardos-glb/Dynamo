@@ -63,7 +63,7 @@ namespace Dynamo.Models
     /// <summary>
     /// The core model of Dynamo.
     /// </summary>
-    public partial class DynamoModel : IDynamoModel, IDisposable, IEngineControllerManager, ITraceReconciliationProcessor
+    public partial class DynamoModel : IDynamoModel, IDisposable, IEngineControllerManager, ITraceReconciliationProcessor // : ModelBase
     {
         #region private members
 
@@ -91,10 +91,6 @@ namespace Dynamo.Models
             if (RequestPresetsNamePrompt != null)
                 RequestPresetsNamePrompt(e);
         }
-
-        /// <summary>
-        /// Occurs when a workspace is saved to a file
-        /// </summary>
         public event WorkspaceHandler WorkspaceSaved;
         internal void OnWorkspaceSaved(WorkspaceModel model)
         {
@@ -123,6 +119,7 @@ namespace Dynamo.Models
         /// access the DynamoModel, the WorkspaceModel (along with its contents), 
         /// and the DynamoScheduler.
         /// </summary>
+        /// 
         public event DynamoModelHandler ShutdownStarted;
 
         private void OnShutdownStarted()
@@ -136,6 +133,7 @@ namespace Dynamo.Models
         /// point the DynamoModel is no longer valid and access to it should be 
         /// avoided.
         /// </summary>
+        /// 
         public event DynamoModelHandler ShutdownCompleted;
 
         private void OnShutdownCompleted()
@@ -335,9 +333,6 @@ namespace Dynamo.Models
         /// </summary>
         private readonly List<WorkspaceModel> _workspaces = new List<WorkspaceModel>();
 
-        /// <summary>
-        ///     Returns collection of visible workspaces in Dynamo
-        /// </summary>
         public IEnumerable<WorkspaceModel> Workspaces 
         {
             get { return _workspaces; } 
@@ -349,9 +344,6 @@ namespace Dynamo.Models
         /// </summary>
         public ITraceReconciliationProcessor TraceReconciliationProcessor { get; set; }
 
-        /// <summary>
-        /// Returns authentication manager object for oxygen authentication.
-        /// </summary>
         public AuthenticationManager AuthenticationManager { get; set; }
 
         #endregion
@@ -366,6 +358,7 @@ namespace Dynamo.Models
         /// </summary>
         /// <param name="shutdownHost">Set this parameter to true to shutdown 
         /// the host application.</param>
+        /// 
         public void ShutDown(bool shutdownHost)
         {
             if (ShutdownRequested)
@@ -449,7 +442,7 @@ namespace Dynamo.Models
         /// <summary>
         ///     Start DynamoModel with all default configuration options
         /// </summary>
-        /// <returns>The instance of <see cref="DynamoModel"/></returns>
+        /// <returns></returns>
         public static DynamoModel Start()
         {
             return Start(new DefaultStartConfiguration() { ProcessMode = TaskProcessMode.Asynchronous });
@@ -458,8 +451,8 @@ namespace Dynamo.Models
         /// <summary>
         /// Start DynamoModel with custom configuration.  Defaults will be assigned not provided.
         /// </summary>
-        /// <param name="configuration">Start configuration</param>
-        /// <returns>The instance of <see cref="DynamoModel"/></returns>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
         public static DynamoModel Start(IStartConfiguration configuration)
         {
             // where necessary, assign defaults
@@ -469,10 +462,6 @@ namespace Dynamo.Models
             return new DynamoModel(configuration);
         }
 
-        /// <summary>
-        /// Default constructor for DynamoModel
-        /// </summary>
-        /// <param name="config">Start configuration</param>
         protected DynamoModel(IStartConfiguration config)
         {
             ClipBoard = new ObservableCollection<ModelBase>();
@@ -581,7 +570,8 @@ namespace Dynamo.Models
             Loader.MessageLogged += LogMessage;
 
             // Create a core which is used for parsing code and loading libraries
-            var libraryCore = new ProtoCore.Core(new Options());
+            var libraryCore =
+                new ProtoCore.Core(new Options { RootCustomPropertyFilterPathName = string.Empty });
 
             libraryCore.Compilers.Add(Language.Associative, new Compiler(libraryCore));
             libraryCore.Compilers.Add(Language.Imperative, new ProtoImperative.Compiler(libraryCore));
@@ -730,10 +720,6 @@ namespace Dynamo.Models
             TraceReconciliationProcessor.PostTraceReconciliation(workspaceOrphanMap);
         }
 
-        /// <summary>
-        /// Deals with orphaned serializables.
-        /// </summary>
-        /// <param name="orphanedSerializables">Collection of orphaned serializables.</param>
         public virtual void PostTraceReconciliation(Dictionary<Guid, List<ISerializable>> orphanedSerializables)
         {
             // Override in derived classes to deal with orphaned serializables.
@@ -1115,9 +1101,9 @@ namespace Dynamo.Models
         }
 
         /// <summary>
-        /// Returns all function instances directly or indirectly depends on the 
+        /// Get all function instances or directly or indrectly dependo on the 
         /// specified function definition and mark them as modified so that 
-        /// their values will be re-queried.
+        /// their values will be re-queryed.
         /// </summary>
         /// <param name="def"></param>
         /// <returns></returns>
@@ -1136,25 +1122,25 @@ namespace Dynamo.Models
         /// <summary>
         /// Call this method to reset the virtual machine, avoiding a race 
         /// condition by using a thread join inside the vm executive.
+        /// TODO(Luke): Push this into a resync call with the engine controller
+        ///
+        /// Tracked in MAGN-5167.
+        /// As some async tasks use engine controller, for example 
+        /// CompileCustomNodeAsyncTask and UpdateGraphAsyncTask, it is possible
+        /// that engine controller is reset *before* tasks get executed. For
+        /// example, opening custom node will schedule a CompileCustomNodeAsyncTask
+        /// firstly and then reset engine controller. 
+        /// 
+        /// We should make sure engine controller is reset after all tasks that
+        /// depend on it get executed, or those tasks are thrown away if safe to 
+        /// do that. 
         /// </summary>
         /// <param name="markNodesAsDirty">Set this parameter to true to force 
-        /// reset of the execution substrait. Note that setting this parameter 
-        /// to true will have a negative performance impact.</param>
+        ///     reset of the execution substrait. Note that setting this parameter 
+        ///     to true will have a negative performance impact.</param>
         public virtual void ResetEngine(bool markNodesAsDirty = false)
         {
-            // TODO(Luke): Push this into a resync call with the engine controller
-            //
-            // Tracked in MAGN-5167.
-            // As some async tasks use engine controller, for example 
-            // CompileCustomNodeAsyncTask and UpdateGraphAsyncTask, it is possible
-            // that engine controller is reset *before* tasks get executed. For
-            // example, opening custom node will schedule a CompileCustomNodeAsyncTask
-            // firstly and then reset engine controller. 
-            // 
-            // We should make sure engine controller is reset after all tasks that
-            // depend on it get executed, or those tasks are thrown away if safe to 
-            // do that. 
-
+            
             ResetEngineInternal();
             foreach (var workspaceModel in Workspaces.OfType<HomeWorkspaceModel>())
             {
@@ -1205,9 +1191,8 @@ namespace Dynamo.Models
         /// <summary>
         ///     Opens a Dynamo workspace from a path to an Xml file on disk.
         /// </summary>
-        /// <param name="xmlPath">Path to file</param>
-        /// <param name="forceManualExecutionMode">Set this to true to discard
-        /// execution mode specified in the file and set manual mode</param>
+        /// <param name="xmlPath"></param>
+        /// <param name="forceManualExecutionMode"></param>
         public void OpenFileFromPath(string xmlPath, bool forceManualExecutionMode = false)
         {
             var xmlDoc = new XmlDocument();
@@ -1494,12 +1479,13 @@ namespace Dynamo.Models
 
         }
 
+
         internal void DumpLibraryToXml(object parameter)
         {
             string fileName = String.Format("LibrarySnapshot_{0}.xml", DateTime.Now.ToString("yyyyMMddHmmss"));
             string fullFileName = Path.Combine(pathManager.LogDirectory, fileName);
 
-            SearchModel.DumpLibraryToXml(fullFileName, PathManager.DynamoCoreDirectory);
+            SearchModel.DumpLibraryToXml(fullFileName);
 
             Logger.Log(string.Format(Resources.LibraryIsDumped, fullFileName));
         }
@@ -1534,7 +1520,7 @@ namespace Dynamo.Models
         /// <summary>
         ///     Add a new, visible Custom Node workspace to Dynamo
         /// </summary>
-        /// <param name="workspace"><see cref="CustomNodeWorkspaceModel"/> to add</param>
+        /// <param name="workspace"></param>
         public void AddCustomNodeWorkspace(CustomNodeWorkspaceModel workspace)
         {
             AddWorkspace(workspace);
@@ -1543,7 +1529,7 @@ namespace Dynamo.Models
         /// <summary>
         ///     Remove a workspace from the dynamo model.
         /// </summary>
-        /// <param name="workspace">Workspace to remove</param>
+        /// <param name="workspace"></param>
         public void RemoveWorkspace(WorkspaceModel workspace)
         {
             OnWorkspaceRemoveStarted(workspace);
@@ -1559,8 +1545,8 @@ namespace Dynamo.Models
         /// <summary>
         ///     Opens an existing custom node workspace.
         /// </summary>
-        /// <param name="guid">Identifier of the workspace to open</param>
-        /// <returns>True if workspace was found and open</returns>
+        /// <param name="guid"></param>
+        /// <returns></returns>
         public bool OpenCustomNodeWorkspace(Guid guid)
         {
             CustomNodeWorkspaceModel customNodeWorkspace;
@@ -1579,11 +1565,9 @@ namespace Dynamo.Models
         /// <summary>
         ///     Adds a node to the current workspace.
         /// </summary>
-        /// <param name="node">Node to add</param>
-        /// <param name="centered">Indicates if the node should be placed 
-        /// at the center of workspace.</param>
-        /// <param name="addToSelection">Indicates if the newly added node 
-        /// should be selected</param>
+        /// <param name="node"></param>
+        /// <param name="centered"></param>
+        /// <param name="addToSelection"></param>
         internal void AddNodeToCurrentWorkspace(NodeModel node, bool centered, bool addToSelection = true)
         {
             CurrentWorkspace.AddAndRegisterNode(node, centered);
@@ -1944,7 +1928,6 @@ namespace Dynamo.Models
             _workspaces.Add(workspace);
             OnWorkspaceAdded(workspace);           
         }
-
         enum ButtonId
         {
             Ok = 43420,

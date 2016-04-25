@@ -213,7 +213,7 @@ namespace Dynamo.Core
         }
 
         /// <summary>
-        /// Returns the most recent version to migrate to the given current version.
+        /// Gets the most recent version to migrate to the given current version.
         /// </summary>
         /// <param name="pathManager"></param>
         /// <param name="dynamoLookup"></param>
@@ -242,7 +242,7 @@ namespace Dynamo.Core
 
         
         /// <summary>
-        /// Returns a list of file version objects given a root folder. Assuming the 
+        /// Get a list of file version objects given a root folder. Assuming the 
         /// following folders exist:
         /// 
         ///     e:\some\path\0.4
@@ -280,7 +280,7 @@ namespace Dynamo.Core
         }
 
         /// <summary>
-        /// Returns list of FileVersion objects, given the IPathManager and 
+        /// Gets list of FileVersion objects, given the IPathManager and 
         /// IDynamoLookUp objects. If a valid IDynamoLookUp interface object
         /// is passed, this method uses the lookup to get Dynamo user data locations.
         /// </summary>

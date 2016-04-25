@@ -4509,7 +4509,7 @@ namespace Dynamo.Wpf.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Getting Started.
+        ///   Looks up a localized string similar to What&apos;s New.
         /// </summary>
         public static string StartPageWhatsNew {
             get {

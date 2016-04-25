@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using Dynamo.Interfaces;
 using Dynamo.Models;
 using Dynamo.Session;
@@ -32,7 +31,7 @@ namespace Dynamo.Configuration
         public string CurrentWorkspacePath { get; private set; }
 
         /// <summary>
-        /// Returns session parameter value for the given parameter name.
+        /// Gets session parameter value for the given parameter name.
         /// </summary>
         /// <param name="parameter">Name of session parameter</param>
         /// <returns>Session parameter value as object</returns>
@@ -42,7 +41,7 @@ namespace Dynamo.Configuration
         }
 
         /// <summary>
-        /// Returns list of session parameter keys available in the session.
+        /// Gets list of session parameter keys available in the session.
         /// </summary>
         /// <returns></returns>
         public IEnumerable<string> GetParameterKeys()
@@ -52,28 +51,14 @@ namespace Dynamo.Configuration
 
         /// <summary>
         /// A helper method to resolve the given file path. The given file path
-        /// will be resolved by searching into the current workspace, core and 
-        /// host application installation folders etc.
+        /// will be resolved by searching into the current workspace, packages and
+        /// definitions folder, core and host application installation folders etc.
         /// </summary>
         /// <param name="filepath">Input file path</param>
         /// <returns>True if the file is found</returns>
         public bool ResolveFilePath(ref string filepath)
         {
-            if (File.Exists(filepath))
-                return true;
-
-            var input = filepath;
-            var filename = Path.GetFileName(filepath);
-            var worspaceDir = Path.GetDirectoryName(CurrentWorkspacePath);
-            filepath = Path.Combine(worspaceDir, filename);
-            if (File.Exists(filepath))
-                return true;
-
-            if (pathManager == null && pathManager.ResolveLibraryPath(ref filepath))
-                return true;
-
-            filepath = input;
-            return false;
+            throw new NotImplementedException();
         }
     }
 }

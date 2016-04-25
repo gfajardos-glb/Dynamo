@@ -36,9 +36,6 @@ namespace Dynamo.Extensions
         /// </summary>
         event Action<IExtension> ExtensionRemoved;
 
-        /// <summary>
-        /// Returns Extension loader.
-        /// </summary>
         IExtensionLoader ExtensionLoader { get; }
     }
 }

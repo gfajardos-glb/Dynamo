@@ -14,9 +14,6 @@ namespace Dynamo.Graph.Nodes
         /// </summary>
         public TController Controller { get; private set; }
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
         protected FunctionCallBase(TController controller)
         {
             Controller = controller;

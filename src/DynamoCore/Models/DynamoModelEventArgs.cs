@@ -4,6 +4,7 @@ using Dynamo.Graph;
 using Dynamo.Graph.Workspaces;
 using Dynamo.Utilities;
 
+using ProtoCore.AST.AssociativeAST;
 
 namespace Dynamo.Models
 {

@@ -364,7 +364,7 @@ namespace Dynamo.ViewModels
         }
 
         /// <summary>
-        /// Returns a value indicating whether this model is frozen.
+        /// Gets a value indicating whether this model is frozen.
         /// </summary>
         /// <value>
         ///   <c>true</c> if this instance is frozen; otherwise, <c>false</c>.

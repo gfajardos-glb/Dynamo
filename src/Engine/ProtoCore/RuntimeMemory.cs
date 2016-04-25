@@ -154,7 +154,7 @@ namespace ProtoCore
             }
 
             /// <summary>
-            /// Returns the value of symbol on current stack frame.
+            /// Return the value of symbol on current stack frame.
             /// </summary>
             /// <param name="symbol"></param>
             /// <returns></returns>
@@ -164,7 +164,7 @@ namespace ProtoCore
             }
 
             /// <summary>
-            /// Returns the value of symbol on specified frame. 
+            /// Return the value of symbol on specified frame. 
             /// </summary>
             /// <param name="symbol"></param>
             /// <param name="framePointer"></param>
@@ -197,7 +197,7 @@ namespace ProtoCore
             }
 
             /// <summary>
-            /// Returns stack index of symbol for specified frame.
+            /// Return stack index of symbol for specified frame.
             /// </summary>
             /// <param name="symbol"></param>
             /// <param name="framePointer"></param>

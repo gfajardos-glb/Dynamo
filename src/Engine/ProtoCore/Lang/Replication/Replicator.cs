@@ -29,8 +29,8 @@ namespace ProtoCore.Lang.Replication
                 List<ZipAlgorithm> tempGuideLaceStrategy = new List<ZipAlgorithm>();
                 foreach (ReplicationGuide guide in guidesOnParam)
                 {
-                    tempGuide.Add(guide.GuideNumber);
-                    tempGuideLaceStrategy.Add(guide.IsLongest ? ZipAlgorithm.Longest : ZipAlgorithm.Shortest);
+                    tempGuide.Add(guide.guideNumber);
+                    tempGuideLaceStrategy.Add(guide.isLongest ? ZipAlgorithm.Longest : ZipAlgorithm.Shortest);
                 }
                 partialGuides.Add(tempGuide);
                 partialGuidesLace.Add(tempGuideLaceStrategy);
@@ -188,11 +188,11 @@ namespace ProtoCore.Lang.Replication
                         continue;
 
                     // If it is negative or 0, treat it as a stub
-                    var guide = replicationGuides[level].GuideNumber;
+                    var guide = replicationGuides[level].guideNumber;
                     if (guide <= 0)
                         continue;
 
-                    var algorithm = replicationGuides[level].IsLongest ? ZipAlgorithm.Longest : ZipAlgorithm.Shortest;
+                    var algorithm = replicationGuides[level].isLongest ? ZipAlgorithm.Longest : ZipAlgorithm.Shortest;
 
                     guides.Add(guide);
 
@@ -542,7 +542,7 @@ namespace ProtoCore.Lang.Replication
         }
 
         /// <summary>
-        /// Returns the maximum depth to which an element can be reduced
+        /// Get the maximum depth to which an element can be reduced
         /// This will include cases where only partial reduction can be performed on jagged arrays
         /// </summary>
         /// <param name="sv"></param>

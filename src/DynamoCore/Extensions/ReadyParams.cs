@@ -17,19 +17,12 @@ namespace Dynamo.Extensions
     {
         private readonly DynamoModel dynamoModel;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReadyParams"/> class.
-        /// </summary>
-        /// <param name="dynamoM">Dynamo model.</param>
         internal ReadyParams(DynamoModel dynamoM)
         {
             dynamoModel = dynamoM;
             dynamoModel.PropertyChanged += OnDynamoModelPropertyChanged;
         }
 
-        /// <summary>
-        /// Returns list of workspaces
-        /// </summary>
         public IEnumerable<IWorkspaceModel> WorkspaceModels
         {
             get
@@ -38,9 +31,6 @@ namespace Dynamo.Extensions
             }
         }
 
-        /// <summary>
-        /// Returns current workspace
-        /// </summary>
         public IWorkspaceModel CurrentWorkspaceModel
         {
             get
@@ -58,9 +48,6 @@ namespace Dynamo.Extensions
             get { return commandExecutive ?? (commandExecutive = new ExtensionCommandExecutive(dynamoModel)); }
         }
 
-        /// <summary>
-        /// Occurs when current workspace is changed
-        /// </summary>
         public event Action<IWorkspaceModel> CurrentWorkspaceChanged;
         private void OnCurrentWorkspaceModelChanged(IWorkspaceModel ws)
         {

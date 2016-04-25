@@ -44,6 +44,7 @@ namespace ProtoCore.DSASM
             int index, 
             int functionIndex,
             Type datatype,
+            Type enforcedType,
             bool isArgument, 
             int runtimeIndex,
             MemoryRegion memregion = MemoryRegion.InvalidRegion, 
@@ -59,6 +60,7 @@ namespace ProtoCore.DSASM
             this.functionIndex = functionIndex;
             this.absoluteFunctionIndex = functionIndex;
             this.datatype       = datatype;
+            this.staticType   = enforcedType;
             this.isArgument     = isArgument;
             this.memregion      = memregion;
             this.classScope     = scope;
@@ -81,6 +83,20 @@ namespace ProtoCore.DSASM
                    functionIndex == rhs.functionIndex && 
                    classScope == rhs.classScope && 
                    codeBlockId == rhs.codeBlockId;
+        }
+
+        public void SetStaticType(ProtoCore.Type newtype)
+        {
+            if (staticType.Equals(newtype))
+            {
+                return;
+            }
+
+            staticType = newtype;
+            if (staticType.UID != (int)PrimitiveType.Var || staticType.rank != 0)
+            {
+                datatype = staticType;
+            }
         }
     }
 

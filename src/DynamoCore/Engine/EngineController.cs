@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using Autodesk.DesignScript.Interfaces;
+﻿using Autodesk.DesignScript.Interfaces;
 using Dynamo.Engine.CodeCompletion;
-using Dynamo.Engine.CodeGeneration;
-using Dynamo.Engine.NodeToCode;
-using Dynamo.Graph.Nodes;
+using Dynamo.Models;
 using Dynamo.Logging;
 using Dynamo.Scheduler;
 using ProtoCore.AST.AssociativeAST;
 using ProtoCore.DSASM.Mirror;
 using ProtoCore.Mirror;
-using ProtoCore.Utils;
 using ProtoScript.Runners;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+
 using BuildWarning = ProtoCore.BuildData.WarningEntry;
 using Constants = ProtoCore.DSASM.Constants;
 using RuntimeWarning = ProtoCore.Runtime.WarningEntry;
+using ProtoCore.Utils;
+using Dynamo.Engine.NodeToCode;
+using Dynamo.Engine.CodeGeneration;
+using Dynamo.Graph.Nodes;
 
 namespace Dynamo.Engine
 {
@@ -29,7 +31,7 @@ namespace Dynamo.Engine
 
     /// <summary>
     /// A controller to coordinate the interactions between some DesignScript
-    /// sub components like library management, live runner and so on.
+    /// sub components like library managment, live runner and so on.
     /// </summary>
     public class EngineController : LogSourceBase, IAstNodeContainer, IDisposable
     {
@@ -71,7 +73,7 @@ namespace Dynamo.Engine
         public static CompilationServices CompilationServices;
 
         /// <summary>
-        /// Returns DesignScript core.
+        /// Get DesignScript core.
         /// </summary>
         public ProtoCore.Core LiveRunnerCore
         {
@@ -82,7 +84,7 @@ namespace Dynamo.Engine
         }
 
         /// <summary>
-        /// Returns DesignScript runtime core.
+        /// Get DesignScript runtime core.
         /// </summary>
         public ProtoCore.RuntimeCore LiveRunnerRuntimeCore
         {
@@ -94,7 +96,7 @@ namespace Dynamo.Engine
 
 
         /// <summary>
-        /// Returns library service instance.
+        /// Return libary service instance.
         /// </summary>
         public LibraryServices LibraryServices
         {
@@ -155,7 +157,7 @@ namespace Dynamo.Engine
         #region Function Groups
 
         /// <summary>
-        /// Returns all function groups.
+        /// Return all function groups.
         /// </summary>
         internal IEnumerable<FunctionGroup> GetFunctionGroups()
         {
@@ -176,10 +178,10 @@ namespace Dynamo.Engine
         #region Value queries
 
         /// <summary>
-        /// Returns runtime mirror for variable.
+        /// Get runtime mirror for variable.
         /// </summary>
         /// <param name="variableName">Unique ID of AST node</param>
-        /// <returns>RuntimeMirror object that reflects status of a single designscript variable</returns>
+        /// <returns>RuntimeMirror object that reflects status of a single designsript variable</returns>
         public RuntimeMirror GetMirror(string variableName)
         {
             lock (macroMutex)
@@ -204,7 +206,7 @@ namespace Dynamo.Engine
         }
 
         /// <summary>
-        /// Returns a list of IGraphicItem of variable if it is a geometry object;
+        /// Get a list of IGraphicItem of variable if it is a geometry object;
         /// otherwise returns null.
         /// </summary>
         /// <param name="variableName"></param>
@@ -303,7 +305,8 @@ namespace Dynamo.Engine
         }
 
         /// <summary>
-        /// Returns true if there are graph sync data in the queue waiting to be executed.
+        /// Return true if there are graph sync data in the queue waiting for
+        /// being executed.
         /// </summary>
         /// <returns></returns>
         public bool HasPendingGraphSyncData
@@ -325,7 +328,7 @@ namespace Dynamo.Engine
 
         /// <summary>
         /// Generate graph sync data based on the input Dynamo custom node information.
-        /// Returns false if all nodes are clean.
+        /// Return false if all nodes are clean.
         /// </summary>
         /// <param name="nodes"></param>
         /// <param name="definition"></param>

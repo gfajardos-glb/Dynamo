@@ -25,7 +25,7 @@ namespace Dynamo.Engine.NodeToCode
     public interface INamingProvider
     {
         /// <summary>
-        /// Returns a name for specified type. This name will be used as the prefix
+        /// Get a name for specified type. This name will be used as the prefix
         /// for variable that created in node to code. It should return a empty
         /// string if fails to generate one.
         /// </summary>
@@ -210,7 +210,7 @@ namespace Dynamo.Engine.NodeToCode
         }
 
         /// <summary>
-        /// Returns the count of recorded actions.
+        /// Return the count of recorded actions.
         /// </summary>
         /// <returns></returns>
         public int ActionCount()
@@ -1057,7 +1057,7 @@ namespace Dynamo.Engine.NodeToCode
         }
 
         /// <summary>
-        /// Returns type-dependent short name based on the type hint of input variable
+        /// Get type-dependent short name based on the type hint of input variable
         /// </summary>
         /// <param name="generator"></param>
         /// <param name="typeHints"></param>

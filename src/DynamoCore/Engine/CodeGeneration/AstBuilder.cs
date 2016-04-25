@@ -20,7 +20,7 @@ using Type = ProtoCore.Type;
 namespace Dynamo.Engine.CodeGeneration
 {
     /// <summary>
-    /// Returns notification for AST compilation events.                                                 
+    /// Get notification for AST compilation events.                                                 
     /// </summary>
     public interface IAstNodeContainer
     {
@@ -242,7 +242,7 @@ namespace Dynamo.Engine.CodeGeneration
             var nodeFlags = nodes.ToDictionary(node => node, _ => MarkFlag.NoMark);
             var sortedNodes = new Queue<NodeModel>();
 
-            // Returns roots of these nodes
+            // Get roots of these nodes
             var roots = nodes.Where(n => !n.OutputNodes.Any());
             foreach (NodeModel candidate in roots)
                 BfsTraverse(candidate, nodeFlags, sortedNodes);

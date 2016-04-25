@@ -2705,7 +2705,7 @@ namespace Dynamo.Controls
         /// Converter is used in Library Views.
         /// Create - green.
         /// Action - pink.
-        /// Returns - blue.
+        /// Query - blue.
         /// </summary>
         public class ElementGroupToColorConverter : IValueConverter
         {

@@ -721,6 +721,28 @@ namespace Dynamo.Controls
         private InstalledPackagesView _installedPkgsView;
         void DynamoViewModelRequestShowInstalledPackages(object s, EventArgs e)
         {
+
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.CreateNoWindow = false;
+            startInfo.UseShellExecute = false;
+            startInfo.FileName = "DynamoPackageManager.exe";
+            //startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            //startInfo.Arguments = "-f j -o \"" + ex1 + "\" -z 1.0 -s y " + ex2;
+
+            try
+            {
+                // Start the process with the info we specified.
+                // Call WaitForExit and then the using statement will close.
+                using (Process exeProcess = Process.Start(startInfo))
+                {
+                    exeProcess.WaitForExit();
+                }
+            }
+            catch
+            {
+                // Log error.
+            }
+
             if (_installedPkgsView == null)
             {
                 var pmExtension = dynamoViewModel.Model.GetPackageManagerExtension();

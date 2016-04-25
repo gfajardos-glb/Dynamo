@@ -1,29 +1,20 @@
 ﻿using System;
+using Dynamo.Graph;
 using Dynamo.Graph.Nodes;
 using Dynamo.Graph.Workspaces;
+using ProtoCore.Lang;
+using ProtoScript.Runners;
 
 namespace Dynamo.Models
 {
-    /// <summary>
-    /// This delegate is used to manage Dynamo's shutting down.
-    /// </summary>
     public delegate void DynamoModelHandler(DynamoModel model);
 
     /// <summary>
-    /// Delegate used in events, when it's required to send node.
+    /// Delegate used in events, when it's requered to send node.
     /// </summary>
     /// <param name="node">Node model</param>
     public delegate void NodeHandler(NodeModel node);
-
-    /// <summary>
-    /// Represents the method that will handle workspace related events.
-    /// </summary>
-    /// <param name="model">The <see cref="WorkspaceModel"/> object which caused the event.</param>
-    public delegate void WorkspaceHandler(WorkspaceModel model);
-
-    /// <summary>
-    /// This delegate is used to manage Dynamo's request dispatcher invoke.
-    /// </summary>
+    public delegate void WorkspaceHandler(WorkspaceModel model);   
     public delegate void ActionHandler(Action action);
 
     /// <summary>
